@@ -1,0 +1,9 @@
+streamlit
+numpy
+pandas
+matplotlib
+scipy
+opencv-python-headless
+alphashape
+altair
+shapely
