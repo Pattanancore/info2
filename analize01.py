@@ -124,4 +124,11 @@ if "df" in st.session_state:
 
     col1, col2 = st.columns([2, 1])
     with col1:
-        data = df.reset_index().melt(id_vars="Frame", value_vars=["Convex Area (Rolling)", "Con
+        data = df.reset_index().melt(id_vars="Frame", value_vars=["Convex Area (Rolling)", "Concave Area (Rolling)"], var_name="Metric", value_name="Area")
+        chart = alt.Chart(data).mark_line().encode(x="Frame:Q", y="Area:Q", color="Metric:N").properties(width=600, height=300)
+        rule = alt.Chart(pd.DataFrame({'Frame': [frame]})).mark_rule(color='red').encode(x='Frame')
+        st.altair_chart(chart + rule, use_container_width=True)
+    with col2:
+        rgb = cv2.cvtColor(frames[frame], cv2.COLOR_BGR2RGB)
+        st.image(rgb, caption=f"Frame {frame}", use_container_width=True)
+        st.metric("F-C Score", f"{df.loc[frame, 'F-C score']:.3f}")
